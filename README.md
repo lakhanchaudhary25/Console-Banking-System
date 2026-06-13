@@ -7,14 +7,12 @@ The goal of this project was to move beyond basic procedural programming and bui
 
 ## 🏗️ Architecture & Design
 This system is engineered using a strict **Three-Tier Architecture**:
-* **Presentation Layer (App/UI):** Acts as the Composition Root. It handles user input, catches and formats domain exceptions, and prevents system crashes without touching business logic.
+* **Presentation Layer (App):** Acts as the Composition Root. It handles user input, catches and formats domain exceptions, and prevents system crashes without touching business logic.
 * **Service Layer (Business Logic):** The "brain" of the bank. It validates rules, processes transfers, manages transaction histories, and creates safe Data Transfer Objects (DTOs).
 * **Data Access Layer (Repository):** An in-memory database utilizing `HashMap` for $O(1)$ retrieval speeds, protected by Java 8 `Optional` to eliminate NullPointerExceptions.
 
 ## 🚀 Key Technical Features
 * **Manual Transaction Rollbacks:** Engineered a custom `try-catch` rollback system inside the transfer method to simulate ACID properties and prevent data loss (the "Infinite Money Glitch") during failed multi-account operations.
-* **Design Patterns:** Implemented the **Simple Factory Pattern** to dynamically manufacture specific account types (Savings, Current) while adhering to the Single Responsibility Principle.
-* **Data Transfer Objects (DTO):** Utilized the **Stream API** to map rich `BankAccount` entities into read-only `AccountSummaryDTO` records, preventing the UI from illegally modifying database entities.
 * **Custom Exception Handling:** Built specific unchecked domain exceptions (`InsufficientFundsException`, `AccountNotFoundException`) to create a clear, fail-fast boundary between user errors and system failures.
 * **Strict Encapsulation:** Protected entity states by entirely avoiding setters. All balance modifications are routed securely through validated instance methods.
 
